@@ -1,0 +1,51 @@
+{% extends 'women/base.html' %}
+
+{% block sidebar %}
+    <td valign="top" class="left-chapters">
+        <ul id="leftchapters">
+            <li class="selected">Фильтр избранного</li>
+            <br>
+
+            <form method="get">
+                <input name="sort_title" type="radio" value="title">по названию статьи
+                <br>
+                <input name="sort_author" type="radio" value="author">по имени автора
+                <br>
+                <button type="submit" class="btn btn-sm btn-primary btn-raised mr-3">Отфильтровать</button>
+            </form>
+        </ul>
+    </td>
+{% endblock %}
+
+{% block content %}
+ <h1>Избранное </h1>
+
+
+
+    <ul class="list-articles">
+        {% for post in new %}
+            <div class="article-panel">
+                <p class="first">Категория: {{ post.cat }}</p>
+                <p class="last">Дата: {{ post.time_update|date:"d-m-Y H:i:s" }}</p>
+                <br>
+                <p class="first">Автор: {{ post.author }}</p>
+            </div>
+            <li>
+                {% if post.photo %}
+                    <p><img class="img-article-left thumb" src="{{ post.photo.url }}"></p>
+                {% endif %}
+                <h2>{{ post.title }}</h2>
+
+                <div>
+                    <p><a class="favour-btn" href="{% url 'favourite_add' post.id %}">Удалить</a></p>
+                </div>
+
+                {% autoescape on %}
+                    {{ post.content|linebreaks|truncatewords:50 }}
+                {% endautoescape %}
+                <div class="clear"></div>
+                <p class="link-read-post"><a href="{{ post.get_absolute_url }}">Читать пост</a></p>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

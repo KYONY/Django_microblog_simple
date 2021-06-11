@@ -1,0 +1,23 @@
+{% extends 'women/base.html' %}
+
+{% block content %}
+
+    <h1>{{ post.title }}</h1>
+    <p class="first">Автор: {{ post.author }}</p>
+
+    {% if post.photo %}
+        <p><img class="img-article-left" src="{{ post.photo.url }}"></p>
+    {% endif %}
+
+
+    {% if request.user.is_authenticated %}
+    <div>
+        <p><a class="favour-btn" href="{% url 'favourite_add' post.id %}">В избранное</a></p>
+    </div>
+    {% endif %}
+
+
+
+
+    {{ post.content|linebreaks }}
+{% endblock %}
